@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Product } from './schemas/product.schema';
 import { CreateProductDto } from './DTO/create-product.dto';
 import { UpdateProductDto } from './DTO/update-product.dto';
@@ -28,13 +28,14 @@ export class ProductsService {
   async findAllPaginated(
     page: number = 1,
     limit: number = 10,
+    sort: string = 'asc',
   ): Promise<PaginationResponse<Product>> {
     const totalDocs = await this.productModel.countDocuments();
     const payload = await this.productModel
       .find()
+      .sort({ price: sort === 'asc' ? 1 : -1 })
       .skip((page - 1) * limit)
       .limit(limit)
-      .populate('category')
       .exec();
 
     const totalPages = Math.ceil(totalDocs / limit);
@@ -55,20 +56,18 @@ export class ProductsService {
   }
 
   async findById(id: string): Promise<Product> {
-    const product = await this.productModel
-      .findById(id)
-      .populate('category')
-      .exec();
+    const product = await this.productModel.findById(id).lean().exec();
     if (!product) {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
     return product;
   }
 
-  async findOne(id: string): Promise<Product> {
+  async findByIdPopulated(id: string): Promise<Product> {
     const product = await this.productModel
       .findById(id)
       .populate('category')
+      .lean()
       .exec();
     if (!product) {
       throw new NotFoundException(`Product with ID ${id} not found`);

@@ -1,0 +1,56 @@
+<div class='flex bg-red-400 place-content-center self-center relative top-16'>
+  <form action='/auth/login' method='POST'>
+    <div
+      class='bg-slate-100 flex-auto self-center top-14 relative flex flex-col rounded-sm min-w-fit max-h-44 shadow-lg'
+    >
+      {{#if errorMessage}}
+
+        <label
+          class='flex-auto self-center relative text-red-600'
+        >{{errorMessage}}</label>
+      {{/if}}
+      <div class='flex-auto self-end relative'>
+
+        <label for='email'>Email:</label>
+        <input
+          class='rounded-sm bg-inherit border-2 border-slate-300'
+          type='text'
+          name='email'
+          id='email'
+          placeholder='Enter your email'
+          required
+        />
+      </div>
+
+      <div class='flex-auto self-end relative'>
+        <label for='password'>Password:</label>
+        <input
+          class='rounded-sm bg-inherit border-2 border-slate-300'
+          type='password'
+          name='password'
+          id='password'
+          placeholder='Enter your password'
+          required
+        />
+      </div>
+      <button
+        type='submit'
+        class='flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600'
+      >Log in</button>
+      <p class='text-blue-600 hover:text-blue-800 flex-0 relative self-center'>
+
+        <a href='/signup'> Don't have an account? Sign up</a>
+      </p>
+      <p
+        class='text-blue-600 hover:text-blue-800 flex-auto relative self-center'
+      >
+
+        <a href='/password-recover'>Forgot your password?</a>
+      </p>
+      <p
+        class='text-blue-600 hover:text-blue-800 flex-auto relative self-center'
+      ><a href='/api/users/github'>GitHub Signup</a></p>
+    </div>
+  </form>
+
+</div>

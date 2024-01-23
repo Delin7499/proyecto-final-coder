@@ -1,0 +1,29 @@
+<div
+  class='h-auto w-64 hover:shadow-md bg-white group relative rounded-md flex-grow id=${prod._id}'
+>
+  <div
+    class='aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80'
+  >
+    <img
+      src=''
+      alt=''
+      class='h-full w-full object-cover object-center lg:h-full lg:w-full'
+    />
+  </div>
+
+  <div class='h-20 mt-4 flex justify-between'>
+    <div>
+      <h2 class='text-sm text-gray-700'>
+        <a href='asd'>
+          <span aria-hidden='true' class='absolute inset-0' />
+          {{prod.title}}
+        </a>
+      </h3>
+    </div>
+    <p class='mt-1 text-sm text-gray-500 absolute bottom-4 left-3'>
+      {{prod.category}}
+    </p>
+
+    <p class='text-sm font-medium text-gray-900'>{{prod.price}}</p>
+  </div>
+</div>

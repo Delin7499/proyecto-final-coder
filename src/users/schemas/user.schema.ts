@@ -8,31 +8,44 @@ export class User {
   @Prop({
     required: true,
   })
-  first_name: String;
+  first_name: string;
 
   @Prop({ required: true })
-  last_name: String;
+  last_name: string;
 
   @Prop({ required: true, unique: true })
-  email: String;
+  email: string;
 
   @Prop({ required: true })
-  age: Number;
+  age: number;
 
   @Prop({ required: true })
-  password: String;
+  password: string;
 
   @Prop({ required: true, enum: ['Premium', 'Admin', 'User'], default: 'User' })
-  role: String;
+  role: string;
 
-  @Prop({ required: true })
-  isGithub: Boolean;
+  @Prop({ default: false })
+  isGithub: boolean;
 
   @Prop({ required: true, type: Types.ObjectId, ref: 'Cart' })
-  cart: String;
+  cart: string;
 
   @Prop({ type: [Types.ObjectId], default: [], ref: 'Ticket' })
   tickets: string[];
+
+  @Prop({
+    default: [
+      {
+        name: 'ProfilePicture',
+        reference: './profiles/default/default.jpeg',
+      },
+    ],
+  })
+  documents: [{ name: string; reference: string }];
+
+  @Prop()
+  lastConnection: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

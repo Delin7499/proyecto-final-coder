@@ -17,6 +17,15 @@ export class UsersService {
   ) {}
 
   async create(user: CreateUserDto): Promise<User> {
+    const duplicate = await this.usersModel
+      .findOne({ email: user.email })
+      .exec();
+    if (duplicate) {
+      throw new NotFoundException(
+        `User with email ${user.email} already exists`,
+      );
+    }
+
     const newCart = await this.cartsService.create();
 
     user.password = bcrypt.hashSync(user.password, 10);
@@ -31,11 +40,11 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersModel.find().exec();
+    return this.usersModel.find().lean().exec();
   }
 
   async findById(id: string): Promise<User> {
-    const user = await this.usersModel.findById(id).exec();
+    const user = await this.usersModel.findById(id).lean().exec();
     if (!user) {
       throw new NotFoundException(`User with id ${id} not found`);
     }
@@ -43,7 +52,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    const user = await this.usersModel.findOne({ email }).exec();
+    const user = await this.usersModel.findOne({ email }).lean().exec();
     if (!user) {
       throw new NotFoundException(`User with email ${email} not found`);
     }
@@ -69,6 +78,19 @@ export class UsersService {
     });
     if (!updatedUser) {
       throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return updatedUser;
+  }
+  async updateByEmail(email: string, user: User): Promise<User> {
+    const updatedUser = await this.usersModel.findOneAndUpdate(
+      { email: email },
+      user,
+      {
+        new: true,
+      },
+    );
+    if (!updatedUser) {
+      throw new NotFoundException(`User with email ${email} not found`);
     }
     return updatedUser;
   }

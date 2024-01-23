@@ -12,6 +12,7 @@ import { HttpCode, HttpStatus } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './DTO/create-product.dto';
 import { UpdateProductDto } from './DTO/update-product.dto';
+import { faker } from '@faker-js/faker';
 
 @Controller('api/products')
 export class ProductsController {
@@ -23,11 +24,16 @@ export class ProductsController {
   }
 
   @Get()
-  async findAll(@Query('page') page: string, @Query('limit') limit: number) {
+  async findAll(
+    @Query('page') page: string,
+    @Query('limit') limit: number,
+    @Query('sort') sort: string,
+  ) {
     page = page || '1';
     const response = await this.productsService.findAllPaginated(
       parseInt(page),
       limit,
+      sort,
     );
     const nextPage = page ? parseInt(page) + 1 : 2;
     const prevPage = page ? parseInt(page) - 1 : 1;
@@ -59,5 +65,22 @@ export class ProductsController {
   async remove(@Param('id') id: string) {
     await this.productsService.remove(id);
     return null;
+  }
+
+  @Post('mock-products')
+  async createMockProducts() {
+    for (let i = 0; i < 100; i++) {
+      const product = {
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        price: parseInt(faker.commerce.price()),
+        status: true,
+        stock: 100,
+        category: faker.commerce.department(),
+        thumbnail: faker.image.url(),
+        owner: 'Admin',
+      };
+      await this.productsService.create(product);
+    }
   }
 }

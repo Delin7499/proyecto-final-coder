@@ -1,0 +1,113 @@
+<div class='flex flex-col'>
+   
+  <div class='self-center w-fit border-solid border-2 border-black rounded-md'>
+    
+    <h1 class=' self-center'>User Profile</h1>
+    <form id="profilePicForm" action="file-upload/profile-picture" method="post" enctype="multipart/form-data">
+      <div class="flex bg-red-200 place-content-center">
+        <img
+            id="profilePic"
+            class='self-center cursor-pointer max-h-32'
+            src='{{profilePicture}}'
+            alt='User Profile Picture'
+        />
+        <input type="file" name="file" id="fileInput" style="display: none;" />
+      </div>
+      <div class="relative flex ">
+        <button id="submitButton" type="submit" class="flex-1  relative h-6">
+          <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute right-2 top-0">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+          </svg>
+        </button>
+      </div>
+            
+    </form>
+      <div class='flex-1 w-fit self-center flex-col'>
+         <form id="personalInfoForm" action="api/users/edit" method="post">
+            <div class='flex-1 flex profile-item'>
+              <label for='first_name'>First Name: </label>
+              <input
+              type="text"
+                class='text-red-600 self-end'
+                id='first_name'
+                name="first_name"
+              ></label>
+            </div>
+      <div class='profile-item'>
+        <label for='last_name'>Last Name:</label>
+        <input id="last_name" type="text"  name="last_name"/>
+       
+      </div>
+      <div class='profile-item'>
+        <label for='email'>Email:</label>
+        <span id='email'>{{user.email}}</span>
+      </div>
+      <div class='profile-item'>
+        <label for='age'>Age:</label>
+        <span id='age'>{{user.age}}</span>
+      </div>
+      <div class='profile-item'>
+        <label for='role'>Role:</label>
+        <span id='role'>{{user.role}}</span>
+    </div>
+    <div class="relative flex ">
+      <button id="submitButton" type="submit" class="flex-1  relative h-6">
+        <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute right-2 top-0">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </button>
+    </div>
+   
+    
+    </form>
+
+    <form id="accountStatusForm" action="file-upload/account-status" method="post" enctype="multipart/form-data" >
+   <div class="flex bg-red-200 place-content-center">
+                <img
+                    id="account-status"
+                    class='self-center cursor-pointer max-h-32'
+                    src='{{profilePicture}}'
+                    alt='User Profile Picture'
+                />
+                <!-- Hidden file input for image upload -->
+                <input type="file" name="file" id="file-account-status" style="display: none;" required/>
+  
+            </div>
+            <div class="relative flex ">
+      <button id="submitButton" type="submit" class="flex-1  relative h-6">
+        <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute right-2 top-0">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </button>
+    </div>
+            
+    </form>
+
+    <form id="proofOfAddressForm" action="file-upload/proof-of-address" method="post" enctype="multipart/form-data">
+   <div class="flex bg-red-200 place-content-center">
+                <img
+                    id="proof-of-address"
+                    class='self-center cursor-pointer max-h-32'
+                    src='{{profilePicture}}'
+                    alt='User Profile Picture'
+                />
+                <input type="file" name="file" id="file-proof-of-address" style="display: none;" required/>
+  
+            </div>
+            <div class="relative flex ">
+      <button id="submitButton" type="submit" class="flex-1  relative h-6">
+        <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute right-2 top-0">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+        </svg>
+      </button>
+    </div>
+         
+    </form>
+
+    
+ 
+  </div>
+
+</div>
+
+<script src="js/editProfile.js"></script>

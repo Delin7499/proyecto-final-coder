@@ -19,9 +19,24 @@ export class CartsService {
   async findAll(): Promise<Cart[]> {
     return this.cartModel.find().exec();
   }
+  async findAllPopulated(): Promise<Cart[]> {
+    return this.cartModel.find().populate('products.product').exec();
+  }
 
   async findById(id: string): Promise<Cart> {
-    const cart = await this.cartModel.findById(id).exec();
+    const cart = await this.cartModel.findById(id).lean().exec();
+    if (!cart) {
+      throw new Error(`Cart with id ${id} not found`);
+    }
+    return cart;
+  }
+
+  async findByIdPopulated(id: string): Promise<Cart> {
+    const cart = await this.cartModel
+      .findById(id)
+      .populate('products.product')
+      .lean()
+      .exec();
     if (!cart) {
       throw new Error(`Cart with id ${id} not found`);
     }
@@ -29,6 +44,16 @@ export class CartsService {
   }
   async findOne(data: any): Promise<Cart> {
     const cart = await this.cartModel.findOne(data).exec();
+    if (!cart) {
+      throw new Error(`Cart not found`);
+    }
+    return cart;
+  }
+  async findOnePopulated(data: any): Promise<Cart> {
+    const cart = await this.cartModel
+      .findOne(data)
+      .populate('products.product')
+      .exec();
     if (!cart) {
       throw new Error(`Cart not found`);
     }

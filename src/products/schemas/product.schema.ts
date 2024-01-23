@@ -31,7 +31,7 @@ export class Product {
   })
   category: string;
 
-  @Prop({ required: true, default: 'https://via.placeholder.com/150' })
+  @Prop({ default: 'https://via.placeholder.com/150' })
   thumbnail: String;
 
   @Prop({ required: true, default: 'admin' })

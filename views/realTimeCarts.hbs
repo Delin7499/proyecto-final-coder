@@ -1,0 +1,25 @@
+<div id="todo">
+  <h1>Cart List</h1>
+  <div id="carts"></div>
+  <div id="forms-container">
+    <div id="add-product-form">
+      <h2>Add a Product</h2>
+      <form id="productForm">
+        <label for="cartId">Id carrito:</label>
+        <input type="text" id="cartId" name="cartId" required /><br />
+        <label for="productId">ID producto:</label>
+        <input type="text" id="productId" name="productId" required /><br />
+        <button type="submit">Add Product to cart</button>
+      </form>
+      <div id="add-cart-form">
+        <h2>Add a cart</h2>
+        <form id="cartForm">
+          <button type="submit">Create Cart</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/carts.js"></script>
+</div>

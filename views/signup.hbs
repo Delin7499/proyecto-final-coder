@@ -1,0 +1,81 @@
+<div class='flex place-content-center'>
+  <form action='/auth/register' method='POST'>
+
+    <div
+      class='relative top-5 flex-1 w-fit flex flex-col bg-slate-200 space-y-0.5'
+    >
+      {{#if errorMessage}}
+
+        <label
+          class='flex-auto self-center relative text-red-600'
+        >{{errorMessage}}</label>
+      {{/if}}
+      <div class='flex-1 self-end'>
+        <label for='first_name'>First Name:</label>
+        <input
+          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          type='text'
+          name='first_name'
+          id='first_name'
+          value='{{first_name}}'
+          placeholder='Enter your first name'
+          required
+        />
+      </div>
+      <div class='flex-1 self-end'>
+        <label for='last_name'>Last Name:</label>
+        <input
+          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          type='text'
+          name='last_name'
+          id='last_name'
+          value='{{last_name}}'
+          placeholder='Enter your last name'
+          required
+        />
+      </div>
+      <div class='flex-1 self-end'>
+        <label for='email'>Email:</label>
+        <input
+          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          type='email'
+          name='email'
+          id='email'
+          placeholder='Enter your email'
+          value='{{email}}'
+          required
+        />
+        <span class='error-message'>{{error}}</span>
+      </div>
+      <div class='flex-1 self-end'>
+        <label for='age'>Age:</label>
+        <input
+          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          type='number'
+          name='age'
+          id='age'
+          value='{{age}}'
+          placeholder='Enter your age'
+          required
+        />
+      </div>
+      <div class='flex-1 self-end'>
+        <label for='password'>Password:</label>
+        <input
+          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          type='password'
+          name='password'
+          id='password'
+          placeholder='Create a password'
+          required
+        />
+      </div>
+      <button
+        type='submit'
+        class='flex-1 relative self-center bg-blue-400 rounded-md hover:bg-blue-600'
+      >Sign up</button>
+      <p class='flex-1 self-center'>Already have an account?
+        <a href='/login'>Log in</a></p>
+    </div>
+  </form>
+</div>
