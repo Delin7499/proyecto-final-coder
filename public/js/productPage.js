@@ -9,10 +9,13 @@ window.onload = function () {
   fetch(`/api/products/${pid}`)
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       document.getElementById('productThumbnail').src = data.thumbnail;
       document.getElementById('productTitle').textContent = data.title;
       document.getElementById('productDescription').textContent =
         data.description;
+      document.getElementById('productPrice').textContent = data.price;
+      document.getElementById('productStock').textContent = data.stock;
     });
 
   const addToCart = document.getElementById('addToCart');

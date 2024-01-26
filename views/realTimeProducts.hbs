@@ -1,51 +1,101 @@
+<div id="forms-container" class="flex justify-center mt-8">
+  <div id="add-product-form" class="w-full max-w-lg">
+    <h2 class="text-2xl font-bold mb-6">Add a Product</h2>
+    <form action="/api/products" method="post" id="productForm" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Title:</label>
+        <input type="text" id="title" name="title" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </div>
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+        <input type="text" id="description" name="description" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </div>
+      <div class="mb-4">
+        <label for="barcode" class="block text-gray-700 text-sm font-bold mb-2">Barcode:</label>
+        <input type="text" id="barcode" name="barcode" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </div>
+      <div class="mb-4">
+        <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+        <input type="number" id="price" name="price" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </div>
+     <div class="mb-4">
+        <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status:</label>
+        <select id="status" name="status" class="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+          <option value="Visible">Visible</option>
+          <option value="HIdden">Hidden</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="stock" class="block text-gray-700 text-sm font-bold mb-2">Stock:</label>
+        <input type="number" id="stock" name="stock" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </div>
+      <div class="mb-4">
+        <label for="category" class="block text-gray-700 text-sm font-bold mb-2">Category:</label>
+         <input type="text" id="category" name="category" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+      </div>
+       <div class="mb-6">
+    <label class="block text-gray-700 text-sm font-bold mb-2">Thumbnail:</label>
+    <div class="flex items-center mb-2">
+      <input type="radio" id="thumbnailTypeURL" name="thumbnailType" value="URL" checked class="mr-2" />
+      <label for="thumbnailTypeURL" class="mr-4 text-gray-700 text-sm">URL</label>
+      <input type="radio" id="thumbnailTypeFile" name="thumbnailType" value="File" class="mr-2" />
+      <label for="thumbnailTypeFile" class="text-gray-700 text-sm">File Upload</label>
+    </div>
+    <input type="text" id="thumbnailURL" name="thumbnailURL" placeholder="Enter image URL" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2" />
+    <input type="file" id="thumbnailFile" name="thumbnailFile" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hidden" />
+  </div>
+      <div class="flex items-center justify-between">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
 <h1>Product List</h1>
-<input type="hidden" id="email" name="email" value="{{email}}" />
-<div id="products" class="product-grid">
-</div>
-<div id="forms-container">
-  <div id="add-product-form">
-    <h2>Add a Product</h2>
-    <form id="productForm">
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required /><br />
-      <label for="description">Description:</label>
-      <input type="text" id="description" name="description" required /><br />
-      <label for="code">Code:</label>
-      <input type="text" id="code" name="code" required /><br />
-      <label for="price">Price:</label>
-      <input type="number" id="price" name="price" required /><br />
-      <label for="status">Status:</label>
-      <input type="checkbox" id="status" name="status" required /><br />
-      <label for="stock">Stock:</label>
-      <input type="number" id="stock" name="stock" required /><br />
-      <label for="category">Category:</label>
-      <select id="category" name="category">
+<input type="hidden" id="email" name="email" value="{{userEmail}}" />
+<div class='flex flex-col relative top-2 place-self-center place-content-center'>
+  <div class="flex flex-1 place-content-center"><h1 class=" w-fit">Your products list</h1></div>
+  <div
+    class='flex relative top-2 bg-zinc-200 place-self-center place-content-center w-9/12'
+  >
+    <div
+      class='containerFilter absolute top-0 right-0 grid grid-cols-6 grid-rows-1 gap-x-6 flex-none'
+    >
+      <label>Limit:</label>
+      <select id='limit' name='limit'>
+        <option value='9'>9</option>
+        <option value='15'>15</option>
+        <option value='30'>30</option>
+        <option value='60'>60</option>
       </select>
-      <label for="thumbnail">Thumbnail URL:</label>
-      <input type="text" id="thumbnail" name="thumbnail" required /><br />
-      <button type="submit">Add Product</button>
-    </form>
-  </div>
 
-  <div id="delete-product-form">
+      <label>Page:</label>
+      <input
+        class='w-10'
+        type='number'
+        value='1'
+        id='page'
+        name='page'
+        min='1'
+      />
 
-    <h2>Delete a Product by ID</h2>
-    <form id="deleteProductForm">
-      <label for="deleteId">Product ID:</label>
-      <input type="text" id="deleteId" name="deleteId" required /><br />
-      <button type="submit">Delete Product</button>
-    </form>
+      <label>Sort:</label>
+      <select id='sort' name='sort'>
+        <option value='asc'>Ascending</option>
+        <option value='desc'>Descending</option>
+      </select>
+    </div>
 
-  </div>
-  <div id="add-category-form">
-    <h2>Add a Category</h2>
-    <form id="addCategoryForm">
-      <label for="categoryName">Category Name:</label>
-      <input type="text" id="categoryName" name="categoryName" required /><br />
-      <button type="submit">Add Category</button>
-    </form>
+    <div
+      id='products'
+      class='flex flex-wrap justify-stretch relative top-10 place-items-center bg-zinc-100 flex-auto space-x-2 space-y-1'
+    >
+    </div>
   </div>
 </div>
 
-<script src="/socket.io/socket.io.js"></script>
+</div>
+
+
 <script src="/js/index.js"></script>

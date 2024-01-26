@@ -1,97 +1,96 @@
-const socket = io("http://localhost:8080", {
-  reconnectionAttempts: 10,
-  reconnectionDelay: 2000,
-});
-const email = document.getElementById("email").value;
+const email = document.getElementById('email').value;
+
 console.log(email);
-const productosContainer = document.getElementById("products");
+
+const productosContainer = document.getElementById('products');
+const applyFiltersButton = document.getElementById('applyFilters');
+if (applyFiltersButton) {
+  applyFiltersButton.addEventListener('click', function () {
+    const limit = document.getElementById('limit').value;
+    const page = document.getElementById('page').value;
+    const sort = document.getElementById('sort').value;
+
+    // Fetch products with the selected filters (limit, page, sort)
+    fetchProducts(limit, page, sort);
+  });
+}
+
+const fetchProducts = (limit, page, sort) => {
+  fetch(`/api/products/user/${email}?limit=${limit}&page=${page}&sort=${sort}`)
+    .then((response) => response.json())
+    .then((products) => {
+      const productoslist = products.payload.map(
+        (
+          prod,
+        ) => ` <div class="h-auto w-64 hover:shadow-md bg-white group relative rounded-md flex-grow id=${prod._id}">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+          <img
+            src="${prod.thumbnail}"
+            alt="${prod.title}"
+            class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+          />
+        </div>
+    
+        <div class="p-4">
+          <h3 class="text-sm text-gray-700">
+            <a href="/product/${prod._id}">
+              <span aria-hidden="true" class="absolute inset-0"></span>
+              ${prod.title}
+            </a>
+          </h3>
+          <p class="text-sm text-gray-500">${prod.description}</p>
+          <p class="text-sm text-gray-500">Code: ${prod.code}</p>
+          <p class="text-sm text-gray-500">Barcode: ${prod.barcode}</p>
+          <p class="text-sm text-gray-500">Category: ${prod.category}</p>
+          <p class="text-sm text-gray-500">Status: ${prod.status}</p>
+          <div class="flex justify-between items-center mt-2">
+            <p class="text-sm font-medium text-gray-900">${prod.price}</p>
+            <p class="text-sm text-gray-500">Stock: ${prod.stock}</p>
+          </div>
+          <p class="text-sm text-gray-500">Owner: ${prod.owner}</p>
+        </div>
+      </div>`,
+      );
+
+      productosContainer.innerHTML = productoslist.join('');
+    })
+    .catch((error) => {
+      console.error('Error fetching products:', error);
+    });
+};
+
 if (productosContainer) {
-  socket.on("products", (productos) => updateProducts(productos, email));
-}
-socket.on("products_update", (productos) => updateProducts(productos, email));
-
-const form = document.querySelector("#productForm");
-form.addEventListener("submit", submitForm);
-
-const deleteForm = document.getElementById("deleteProductForm");
-deleteForm.addEventListener("submit", deleteProduct);
-
-const categoryForm = document.getElementById("addCategoryForm");
-categoryForm.addEventListener("submit", addCategory);
-
-const categorySelect = document.getElementById("category");
-socket.on("categories", populateCategories);
-
-function updateProducts(productos, email) {
-  const filteredProductos = productos.filter((prod) => prod.owner === email);
-  const productoslist = filteredProductos.map((prod) => getProductHTML(prod));
-  productosContainer.innerHTML = productoslist.join("");
+  fetchProducts('9', '1', 'asc');
 }
 
-function submitForm(event) {
-  event.preventDefault();
-  const formData = getFormData();
-  fetch("/api/products", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  }).catch((error) => {
-    console.error("Error:", error);
+document.addEventListener('DOMContentLoaded', (event) => {
+  const limitSelect = document.getElementById('limit');
+  const pageInput = document.getElementById('page');
+  const sortSelect = document.getElementById('sort');
+  limitSelect.addEventListener('change', () => {
+    fetchProducts(limitSelect.value, pageInput.value, sortSelect.value);
+    console.log(limitSelect.value);
   });
-}
 
-function deleteProduct(e) {
-  e.preventDefault();
-  const productId = document.getElementById("deleteId").value;
-  fetch(`/api/products/${productId}`, {
-    method: "DELETE",
-  }).catch((error) => {
-    console.error("Error:", error);
+  pageInput.addEventListener('input', () => {
+    fetchProducts(limitSelect.value, pageInput.value, sortSelect.value);
+    console.log(pageInput.value);
   });
-}
 
-function addCategory(e) {
-  e.preventDefault();
-  const categoryName = document.getElementById("categoryName").value;
-  fetch(`/api/products/category/${categoryName}`, {
-    method: "POST",
-  }).catch((error) => {
-    console.error("Error:", error);
+  sortSelect.addEventListener('change', () => {
+    fetchProducts(limitSelect.value, pageInput.value, sortSelect.value);
+    console.log(sortSelect.value);
   });
-}
-
-function populateCategories(categories) {
-  categories.forEach((category) => {
-    const option = document.createElement("option");
-    option.textContent = category.name;
-    categorySelect.appendChild(option);
+});
+//////////////////////////////////////////////
+document.querySelectorAll("input[name='thumbnailType']").forEach((input) => {
+  input.addEventListener('change', function () {
+    const isURL = document.getElementById('thumbnailTypeURL').checked;
+    document.getElementById('thumbnailURL').style.display = isURL
+      ? 'block'
+      : 'none';
+    document.getElementById('thumbnailFile').style.display = isURL
+      ? 'none'
+      : 'block';
   });
-}
-
-function getProductHTML(prod) {
-  return `<div id="${prod._id}" class="product">
-    <h2>${prod.title}</h2>
-    <p>Id: ${prod._id}</p>
-    <p>Description: ${prod.description}</p>
-    <p>Code: ${prod.code}</p>
-    <p>Stock: ${prod.stock}</p>
-    <p>Category: ${prod.category}</p>
-    <img src="${prod.thumbnail}" alt="${prod.title} Image" />
-    <p class="price">Price: $ ${prod.price}</p>
-  </div>`;
-}
-
-function getFormData() {
-  return {
-    title: document.querySelector("#title").value,
-    description: document.querySelector("#description").value,
-    code: document.querySelector("#code").value,
-    price: parseFloat(document.querySelector("#price").value),
-    status: document.querySelector("#status").checked,
-    stock: parseInt(document.querySelector("#stock").value),
-    category: document.querySelector("#category").value,
-    thumbnail: document.querySelector("#thumbnail").value,
-  };
-}
+});

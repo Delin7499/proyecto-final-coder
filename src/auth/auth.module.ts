@@ -6,19 +6,28 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { ConfigModule } from '@nestjs/config';
+import { MailModule } from 'src/mail/mail.module';
+import { RecoveryToken } from './schemas/recoveryToken.schema';
+import { RecoveryTokenSchema } from './schemas/recoveryToken.schema';
+import { MongooseModule } from '@nestjs/mongoose';
+import { GithubStrategy } from './github.strategy';
 
 @Module({
   imports: [
-    ConfigModule,
+    ConfigModule.forRoot({}),
+    MailModule,
     PassportModule,
     UsersModule,
     JwtModule.register({
-      secret: '4b4c4d4e4f4g4h4i4j4k4l4m4n4o4p4q4r4s4t4u4v4w4x4y4z',
+      secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '600s' },
     }),
+    MongooseModule.forFeature([
+      { name: RecoveryToken.name, schema: RecoveryTokenSchema },
+    ]),
   ],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, GithubStrategy],
+  exports: [AuthService, JwtStrategy, GithubStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { TicketsService } from 'src/tickets/tickets.service';
 import { CartsService } from 'src/carts/carts.service';
@@ -59,15 +59,29 @@ export class UsersService {
     return user;
   }
 
-  async addTicket(userId: string, ticket: CreateTicketDto): Promise<User> {
+  async findByEmailPopulated(email: string): Promise<User> {
+    const user = await this.usersModel
+      .findOne({ email })
+      .populate('tickets')
+      .lean()
+      .exec();
+    if (!user) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+    return user;
+  }
+
+  async addTicket(
+    userId: Types.ObjectId,
+    ticket: Types.ObjectId,
+  ): Promise<User> {
+    console.log('addTicket', userId, ticket);
     const user = await this.usersModel.findById(userId);
     if (!user) {
       throw new NotFoundException(`User with id ${userId} not found`);
     }
 
-    const newTicket = await this.ticketsService.create(ticket);
-
-    user.tickets.push(newTicket._id.toString());
+    user.tickets.push(ticket);
 
     return user.save();
   }

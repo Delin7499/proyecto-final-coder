@@ -63,7 +63,7 @@ export class CartsController {
     if (cartProduct) {
       cartProduct.quantity += quantity;
     } else {
-      cart.products.push({ product: pid, quantity: 1 });
+      cart.products.push({ product: pid, quantity });
     }
 
     const update = await this.cartsService.update(cid, cart);
@@ -93,6 +93,9 @@ export class CartsController {
     const index = cart.products.findIndex(
       (product) => product.product.toString() === pid,
     );
+    console.log('index', index);
+    console.log('cart', cart);
+    console.log('pid', pid);
     if (index !== -1) {
       cart.products.splice(index, 1);
     } else {

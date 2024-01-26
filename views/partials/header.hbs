@@ -1,4 +1,5 @@
 <header class='flex flex-row'>
+
   <form action='/home' method='get' style='display: inline;'>
     <button
       type='submit'
@@ -22,6 +23,7 @@
     </button>
   </form>
   {{#if user}}
+    <div id='uid' data-id='{{user._id}}'></div>
 
     <div class='flex-1 self-start'>
       <h1 class='relative left-3'>Bienvenido
@@ -33,8 +35,15 @@
 
       <ul class='flex flex-row self-end space-x-3'>
         {{#if isAdmin}}
-          <li><a href='/realtimeproducts'>Edit Products</a></li>
+          <li><a href='/realtimeproducts'>My Products</a></li>
+        {{else}}
+          <div id='uid' data-id='{{user._id}}'></div>
+          <li><button
+              id='requestPremiumAccess'
+              class='flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600'
+            >Request Premium Access</button></li>
         {{/if}}
+
         <li>
           <form action='/auth/logout' method='post' style='display: inline;'>
             <button type='submit'>
@@ -50,3 +59,5 @@
     </nav>
   {{/if}}
 </header>
+
+<script src='js/header.js'></script>

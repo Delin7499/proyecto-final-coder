@@ -41,14 +41,10 @@ export class AppController {
 
   @Get('password-reset/:email/:token')
   passwordReset(
-    @Req() request: Request,
     @Res() response: Response,
     @Param('email') email: string,
     @Param('token') token: string,
   ) {
-    if (request.user) {
-      return response.redirect('/home');
-    }
     return response.render('resetPassword', { email, token });
   }
 
@@ -57,7 +53,8 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   home(@Req() request: Request, @Res() response: Response) {
     const user = request.user['user'];
-    return response.render('home', { user });
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
+    return response.render('home', { user, isAdmin });
   }
 
   @Get('profile')
@@ -65,15 +62,10 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   profile(@Req() request: Request, @Res() response: Response) {
     const user = request.user['user'];
-    if (!user) {
-      return response.redirect('/login');
-    }
-    const profileDocument = user.documents.find(
-      (doc) => doc.name === 'ProfilePicture',
-    );
-    const profilePicture = profileDocument ? profileDocument.reference : null;
 
-    return response.render('profile', { user, profilePicture });
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
+
+    return response.render('profile', { user, isAdmin });
   }
 
   @Get('edit-profile')
@@ -81,23 +73,14 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   editProfile(@Req() request: Request, @Res() response: Response) {
     const user = request.user['user'];
-    if (!user) {
-      return response.redirect('/login');
-    }
-    const profileDocument = user.documents.find(
-      (doc) => doc.name === 'ProfilePicture',
-    );
-    const profilePicture = profileDocument ? profileDocument.reference : null;
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
 
-    return response.render('editProfile', { user, profilePicture });
+    return response.render('editProfile', { user, isAdmin });
   }
-
   @Get('carts/:cid')
   cart(@Res() response: Response, @Param('cid') cid: string) {
     const cartId = cid;
-    if (false) {
-      return response.redirect('/login');
-    }
+
     return response.render('cart', { cartId });
   }
 
@@ -106,27 +89,28 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   mycart(@Req() request: Request, @Res() response: Response) {
     const user = request.user['user'];
-    return response.render('cart', { user, cartId: user.cart });
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
+    return response.render('cart', { user, cartId: user.cart, isAdmin });
   }
 
   @Get('mytickets')
   @UseFilters(UnauthorizedExceptionFilter)
   @UseGuards(AuthGuard('jwt'))
-  mytickets(@Res() response: Response) {
-    if (false) {
-      return response.redirect('/login');
-    }
-    return response.render('userTickets');
+  mytickets(@Req() request: Request, @Res() response: Response) {
+    const user = request.user['user'];
+    const userEmail = user.email;
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
+    return response.render('userTickets', { user, userEmail, isAdmin });
   }
 
   @Get('realtimeproducts')
   @UseFilters(UnauthorizedExceptionFilter)
   @UseGuards(AuthGuard('jwt'))
-  realtimeproducts(@Res() response: Response) {
-    if (false) {
-      return response.redirect('/login');
-    }
-    return response.render('realTimeProducts');
+  realtimeproducts(@Req() request: Request, @Res() response: Response) {
+    const user = request.user['user'];
+    const userEmail = user.email;
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
+    return response.render('realTimeProducts', { user, userEmail, isAdmin });
   }
 
   @Get('product/:pid')
@@ -139,16 +123,14 @@ export class AppController {
   ) {
     const user = request.user['user'];
     const cartId = user.cart;
-    return response.render('productPage', { pid, cartId });
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
+    return response.render('productPage', { user, pid, cartId, isAdmin });
   }
 
   @Get('chat')
   @UseFilters(UnauthorizedExceptionFilter)
   @UseGuards(AuthGuard('jwt'))
   chat(@Res() response: Response) {
-    if (false) {
-      return response.redirect('/login');
-    }
     return response.render('chat');
   }
 }

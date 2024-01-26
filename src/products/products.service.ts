@@ -55,6 +55,37 @@ export class ProductsService {
     };
   }
 
+  async findAllPaginatedByOwner(
+    page: number = 1,
+    limit: number = 10,
+    sort: string = 'asc',
+    email: string,
+  ): Promise<PaginationResponse<Product>> {
+    const totalDocs = await this.productModel.countDocuments();
+    const payload = await this.productModel
+      .find({ owner: email })
+      .sort({ price: sort === 'asc' ? 1 : -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    const totalPages = Math.ceil(totalDocs / limit);
+    const pagingCounter = (page - 1) * limit + 1;
+    const hasPrevPage = page > 1;
+    const hasNextPage = page < totalPages;
+
+    return {
+      payload,
+      totalDocs,
+      limit,
+      totalPages,
+      page,
+      pagingCounter,
+      hasPrevPage,
+      hasNextPage,
+    };
+  }
+
   async findById(id: string): Promise<Product> {
     const product = await this.productModel.findById(id).lean().exec();
     if (!product) {

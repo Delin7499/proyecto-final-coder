@@ -1,10 +1,10 @@
-const emailInput = document.getElementById("email");
+const emailInput = document.getElementById('email');
 console.log(emailInput.value);
-document.getElementById("send-button").addEventListener("click", function () {
-  fetch("/api/users/recover", {
-    method: "POST",
+document.getElementById('send-button').addEventListener('click', function () {
+  fetch('/auth/forgot-password', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       email: emailInput.value,
@@ -14,9 +14,9 @@ document.getElementById("send-button").addEventListener("click", function () {
     .then((data) => {
       console.log(data);
 
-      document.getElementById("resultContainer").innerHTML = data;
+      document.getElementById('resultContainer').innerHTML = data.message;
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error('Error:', error);
     });
 });

@@ -15,19 +15,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 
-const storage = diskStorage({
-  destination: './public/assets/images',
-  filename: (req, file, cb) => {
-    const name = file.originalname.split('.')[0];
-    const extension = extname(file.originalname);
-    const randomName = Array(32)
-      .fill(null)
-      .map(() => Math.round(Math.random() * 16).toString(16))
-      .join('');
-    cb(null, `${name}-${randomName}${extension}`);
-  },
-});
-
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -54,5 +41,39 @@ export class UsersController {
     const user = await this.usersService.findById(id);
     const { password, ...result } = user;
     return response.json(result);
+  }
+
+  @Post('premium/:uid')
+  async makePremium(@Req() request: Request, @Res() response: Response) {
+    const id = request.params.uid;
+    const user = await this.usersService.findById(id);
+    if (!user) return response.status(404).json({ message: 'User not found' });
+
+    const documents = user.documents;
+
+    const profilePic = documents.find((doc) => doc.name === 'ProfilePicture');
+    const accountSatatus = documents.find(
+      (doc) => doc.name === 'AccountStatus',
+    );
+    const proofOfAddress = documents.find(
+      (doc) => doc.name === 'ProofOfAddress',
+    );
+
+    if (!profilePic)
+      return response
+        .status(404)
+        .json({ message: 'Profile picture not found' });
+    if (!accountSatatus)
+      return response.status(404).json({ message: 'Account status not found' });
+    if (!proofOfAddress)
+      return response
+        .status(404)
+        .json({ message: 'Proof of address not found' });
+
+    user.role = 'Premium';
+    this.usersService.update(id, user);
+
+    response.clearCookie('jwt');
+    return response.redirect('/login');
   }
 }

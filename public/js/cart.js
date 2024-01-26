@@ -21,35 +21,40 @@ function fetchCartData() {
 }
 
 function renderCartProducts(products) {
+  console.log(products);
   const productsList = products.map((prod) => {
     return `
-    <div  class=" h-auto w-64 hover:shadow-md bg-white group relative rounded-md flex-grow id=${prod.product._id}">
-    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-      <img
-        src="${prod.product.thumbnail}"
-        alt="${prod.product.title}"
-        class="h-full w-full object-cover object-center lg:h-full lg:w-full"
-      />
-    </div>
-
-    <div class="h-20 mt-4 flex justify-between">
-      <div>
-        <h2 class="text-sm text-gray-700">
-          <a href="${prod.product.title}">
-            <span aria-hidden="true" class="relative inset-0" />
-            ${prod.product.title}
-          </a>
-        </h3>
-      </div>
-      <p class="mt-1 text-sm text-gray-500 absolute bottom-4 left-3">
-       ${prod.product.category}
-      </p>
-
-      <p class="text-sm font-medium text-gray-900 "> $${prod.product.price}</p>
-    </div>
-    <h3 class="text-sm text-gray-500 absolute bottom-0 left-3">${prod.quantity}</h3>
-    <button class="delete-product-button" data-product-id="${prod.product._id}">Delete</button>
-  </div>`;
+  
+  <div class="h-auto w-64 hover:shadow-md bg-white group relative rounded-md flex-grow id=${prod._id}">
+        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+          <img
+            src="${prod.product.thumbnail}"
+            alt="${prod.product.title}"
+            class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+          />
+        </div>
+    
+        <div class="p-4">
+          <h3 class="text-sm text-gray-700">
+            <a href="/product/${prod.product._id}">
+              <span aria-hidden="true" class="absolute inset-0"></span>
+              ${prod.product.title}
+            </a>
+          </h3>
+          <p class="text-sm text-gray-500">${prod.product.description}</p>
+          <p class="text-sm text-gray-500">Code: ${prod.product.code}</p>
+          <p class="text-sm text-gray-500">Barcode: ${prod.product.barcode}</p>
+          <p class="text-sm text-gray-500">Category: ${prod.product.category}</p>
+          <p class="text-sm text-gray-500">Status: ${prod.product.status}</p>
+          <div class="flex justify-between items-center mt-2">
+            <p class="text-sm font-medium text-gray-900">$${prod.product.price}</p>
+            <p class="text-sm text-gray-500">Stock: ${prod.product.stock}</p>
+          </div>
+          <p class="text-sm text-gray-500">Owner: ${prod.product.owner}</p>
+          <h3 class="text-sm text-black ">Quantity: ${prod.quantity}</h3>
+        </div>
+        <button class="delete-product-button flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600" data-product-id=" Quantity:${prod.product._id}">Delete</button>
+      </div>`;
   });
 
   // Update the products container with the rendered products
@@ -69,9 +74,8 @@ function setupDeleteButtons() {
       fetch(`/api/carts/${cartId}/product/${productId}`, {
         method: 'DELETE',
       })
-        .then((response) => response.json())
-        .then((cartData) => {
-          renderCartProducts(cartData.products);
+        .then(() => {
+          fetchCartData();
         })
         .catch((error) => {
           console.error('Error deleting product:', error);

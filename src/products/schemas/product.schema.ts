@@ -25,9 +25,7 @@ export class Product {
   stock: Number;
 
   @Prop({
-    type: Types.ObjectId,
-    ref: 'Category',
-    default: `658a6097d134147e23a74804`,
+    default: `Product`,
   })
   category: string;
 

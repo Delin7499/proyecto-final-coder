@@ -31,8 +31,8 @@ export class User {
   @Prop({ required: true, type: Types.ObjectId, ref: 'Cart' })
   cart: string;
 
-  @Prop({ type: [Types.ObjectId], default: [], ref: 'Ticket' })
-  tickets: string[];
+  @Prop({ default: [], ref: 'Ticket' })
+  tickets: [Types.ObjectId];
 
   @Prop({
     default: [

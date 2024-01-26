@@ -11,13 +11,14 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
 import { FileUploadModule } from './file-upload/file-upload.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
     MulterModule.register({
       dest: './uploads',
     }),
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({}),
     ProductsModule,
     MongooseModule.forRoot(process.env.MONGO_URL),
     CategoryModule,
@@ -26,6 +27,7 @@ import { FileUploadModule } from './file-upload/file-upload.module';
     UsersModule,
     TicketsModule,
     FileUploadModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
