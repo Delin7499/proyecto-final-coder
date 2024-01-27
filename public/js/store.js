@@ -18,12 +18,12 @@ const fetchProducts = (limit, page, sort) => {
       const productoslist = products.payload.map(
         (
           prod,
-        ) => `<div class="h-auto w-64 hover:shadow-md bg-white group relative rounded-md flex-grow id=${prod._id}">
-        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+        ) => `<div class="h-auto md:w-64 hover:shadow-md bg-white group relative rounded-md flex flex-col">
+        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75">
           <img
             src="${prod.thumbnail}"
             alt="${prod.title}"
-            class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+            class="h-full w-full object-cover object-center"
           />
         </div>
     
@@ -45,7 +45,8 @@ const fetchProducts = (limit, page, sort) => {
           </div>
           <p class="text-sm text-gray-500">Owner: ${prod.owner}</p>
         </div>
-      </div>`,
+    </div>
+    `,
       );
 
       productosContainer.innerHTML = productoslist.join('');

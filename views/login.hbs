@@ -1,19 +1,24 @@
 <div class='flex bg-red-400 place-content-center self-center relative top-16'>
-  <form action='/auth/login' method='POST'>
-    <div
-      class='bg-slate-100 flex-auto self-center top-14 relative flex flex-col rounded-sm min-w-fit max-h-44 shadow-lg'
-    >
-      {{#if errorMessage}}
+  <form
+    action='/auth/login'
+    method='POST'
+    class='bg-white border-4 border-gray-200 shadow-lg rounded-lg p-6 w-full max-w-md'
+  >
+    <div class='space-y-4'>
 
+      {{#if errorMessage}}
         <label
-          class='flex-auto self-center relative text-red-600'
+          class='text-red-600 block mb-4 text-center'
         >{{errorMessage}}</label>
       {{/if}}
-      <div class='flex-auto self-end relative'>
 
-        <label for='email'>Email:</label>
+      <div>
+        <label
+          for='email'
+          class='block font-semibold text-gray-700'
+        >Email:</label>
         <input
-          class='rounded-sm bg-inherit border-2 border-slate-300'
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
           type='text'
           name='email'
           id='email'
@@ -22,10 +27,13 @@
         />
       </div>
 
-      <div class='flex-auto self-end relative'>
-        <label for='password'>Password:</label>
+      <div>
+        <label
+          for='password'
+          class='block font-semibold text-gray-700'
+        >Password:</label>
         <input
-          class='rounded-sm bg-inherit border-2 border-slate-300'
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
           type='password'
           name='password'
           id='password'
@@ -33,24 +41,28 @@
           required
         />
       </div>
+
       <button
         type='submit'
-        class='flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600'
+        class='w-full bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md mt-4'
       >Log in</button>
-      <p class='text-blue-600 hover:text-blue-800 flex-0 relative self-center'>
 
-        <a href='/signup'> Don't have an account? Sign up</a>
+      <p class='text-center mt-4'>
+        <a href='/signup' class='text-blue-600 hover:underline'>Don't have an
+          account? Sign up</a>
       </p>
-      <p
-        class='text-blue-600 hover:text-blue-800 flex-auto relative self-center'
-      >
 
-        <a href='/password-recover'>Forgot your password?</a>
+      <p class='text-center'>
+        <a href='/password-recover' class='text-blue-600 hover:underline'>Forgot
+          your password?</a>
       </p>
-      <p
-        class='text-blue-600 hover:text-blue-800 flex-auto relative self-center'
-      ><a href='/auth/github/callback'>GitHub Signup</a></p>
+
+      <p class='text-center'>
+        <a
+          href='/auth/github/callback'
+          class='text-blue-600 hover:underline'
+        >GitHub Signup</a>
+      </p>
     </div>
   </form>
-
 </div>

@@ -2,14 +2,15 @@
 
   <!-- Cart Products -->
   <div class='flex-auto'>
-    <div data-id='{{cartId}}' id='cart'>
-      <h1 class='text-xl font-bold mb-4'>Cart {{cartId}}</h1>
-      <div id='products' class='product-grid'></div>
-    </div>
+
+    <h1 data-id='{{cartId}}' id='cart' class='text-xl font-bold mb-4'>Cart
+      {{cartId}}</h1>
+    <div id='products' class='grid grid-cols-1 md:grid-cols-3 gap-4'></div>
+
   </div>
 
   <!-- Cart Summary -->
-  <div class='flex-1 w-1/5'>
+  <div class='flex-auto'>
     <div id='cartSummary' class='rounded-md bg-slate-600 p-4 mb-4'>
       <h2 class='text-white text-lg mb-3'>Cart Summary</h2>
       <ul id='cartItems' class='text-white'></ul>
@@ -32,5 +33,5 @@
 
 </div>
 
-<script src='/js/cartSummary.js'></script>
 <script src='/js/cart.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>

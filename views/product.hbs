@@ -63,3 +63,31 @@
               <h3>asdasd</h3>
               <p>asddas</p>
           </div>
+
+          <div class="h-auto bg-white group relative rounded-md shadow-md">
+        <div class="aspect-w-16 aspect-h-9 w-full overflow-hidden rounded-t-lg bg-gray-200">
+          <img
+            src="${prod.thumbnail}"
+            alt="${prod.title}"
+            class="h-full w-full object-cover object-center"
+          />
+        </div>
+  
+        <div class="p-4">
+          <h3 class="text-sm text-gray-700">
+            <a href="/product/${prod._id}">
+              ${prod.title}
+            </a>
+          </h3>
+          <p class="text-sm text-gray-500">${prod.description}</p>
+          <p class="text-sm text-gray-500">Code: ${prod.code}</p>
+          <p class="text-sm text-gray-500">Barcode: ${prod.barcode}</p>
+          <p class="text-sm text-gray-500">Category: ${prod.category}</p>
+          <p class="text-sm text-gray-500">Status: ${prod.status}</p>
+          <div class="flex justify-between items-center mt-2">
+            <p class="text-sm font-medium text-gray-900">$${prod.price}</p>
+            <p class="text-sm text-gray-500">Stock: ${prod.stock}</p>
+          </div>
+          <p class="text-sm text-gray-500">Owner: ${prod.owner}</p>
+        </div>
+    </div>

@@ -1,19 +1,22 @@
 <div class='flex place-content-center'>
-  <form action='/auth/register' method='POST'>
+  <form
+    action='/auth/register'
+    method='POST'
+    class='bg-white border-4 border-gray-200 shadow-lg rounded-lg p-6 w-full max-w-md'
+  >
 
-    <div
-      class='relative top-5 flex-1 w-fit flex flex-col bg-slate-200 space-y-0.5'
-    >
-      {{#if errorMessage}}
+    {{#if errorMessage}}
+      <label
+        class='text-red-600 block mb-4 text-center'
+      >{{errorMessage}}</label>
+    {{/if}}
 
-        <label
-          class='flex-auto self-center relative text-red-600'
-        >{{errorMessage}}</label>
-      {{/if}}
-      <div class='flex-1 self-end'>
-        <label for='first_name'>First Name:</label>
+    <div class='space-y-4'>
+      <div>
+        <label for='first_name' class='block font-semibold text-gray-700'>First
+          Name:</label>
         <input
-          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
           type='text'
           name='first_name'
           id='first_name'
@@ -22,10 +25,12 @@
           required
         />
       </div>
-      <div class='flex-1 self-end'>
-        <label for='last_name'>Last Name:</label>
+
+      <div>
+        <label for='last_name' class='block font-semibold text-gray-700'>Last
+          Name:</label>
         <input
-          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
           type='text'
           name='last_name'
           id='last_name'
@@ -34,10 +39,14 @@
           required
         />
       </div>
-      <div class='flex-1 self-end'>
-        <label for='email'>Email:</label>
+
+      <div>
+        <label
+          for='email'
+          class='block font-semibold text-gray-700'
+        >Email:</label>
         <input
-          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
           type='email'
           name='email'
           id='email'
@@ -45,12 +54,12 @@
           value='{{email}}'
           required
         />
-        <span class='error-message'>{{error}}</span>
       </div>
-      <div class='flex-1 self-end'>
-        <label for='age'>Age:</label>
+
+      <div>
+        <label for='age' class='block font-semibold text-gray-700'>Age:</label>
         <input
-          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
           type='number'
           name='age'
           id='age'
@@ -59,10 +68,14 @@
           required
         />
       </div>
-      <div class='flex-1 self-end'>
-        <label for='password'>Password:</label>
+
+      <div>
+        <label
+          for='password'
+          class='block font-semibold text-gray-700'
+        >Password:</label>
         <input
-          class='rounded-sm bg-slate-100 border-2 border-slate-300'
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
           type='password'
           name='password'
           id='password'
@@ -70,12 +83,29 @@
           required
         />
       </div>
+
+      <div>
+        <label
+          for='repeat_password'
+          class='block font-semibold text-gray-700'
+        >Repeat Password:</label>
+        <input
+          class='w-full rounded-md bg-slate-100 border-2 border-slate-300 p-2'
+          type='password'
+          name='repeat_password'
+          id='repeat_password'
+          placeholder='Repeat your password'
+          required
+        />
+      </div>
+
       <button
         type='submit'
-        class='flex-1 relative self-center bg-blue-400 rounded-md hover:bg-blue-600'
+        class='w-full bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md mt-4'
       >Sign up</button>
-      <p class='flex-1 self-center'>Already have an account?
-        <a href='/login'>Log in</a></p>
+
+      <p class='text-center mt-4'>Already have an account?
+        <a href='/login' class='text-blue-600 hover:underline'>Log in</a></p>
     </div>
   </form>
 </div>

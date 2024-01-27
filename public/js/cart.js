@@ -36,13 +36,24 @@ document
       .then((data) => {
         // Assuming 'data' is the response in JSON format as you mentioned
         displayMessage(data.message);
-        alert(data.message);
-        window.location.reload();
+        Swal.fire({
+          icon: 'success',
+          title: 'Purchase completed!',
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
       })
       .catch((error) => {
         console.error('Error:', error);
-        alert('An error occurred while making the purchase.');
-        window.location.reload();
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        }).then(() => {
+          window.location.reload();
+        });
       });
   });
 
@@ -89,7 +100,7 @@ function renderCartProducts(products) {
           <p class="text-sm text-gray-500">Owner: ${prod.product.owner}</p>
           <h3 class="text-sm text-black ">Quantity: ${prod.quantity}</h3>
         </div>
-        <button class="delete-product-button flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600" data-product-id=" Quantity:${prod.product._id}">Delete</button>
+        <button class="delete-product-button flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600" data-product-id="${prod.product._id}">Delete</button>
       </div>`;
   });
 

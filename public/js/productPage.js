@@ -19,13 +19,9 @@ window.onload = function () {
     });
 
   const addToCart = document.getElementById('addToCart');
-  const quantity = document.getElementById('quantity');
-
-  quantity.addEventListener('change', () => {
-    console.log(quantity.value);
-  });
 
   addToCart.addEventListener('click', () => {
+    const quantity = document.getElementById('quantity');
     fetch(`/api/carts/${cid}/product/${pid}`, {
       method: 'POST',
       headers: {
@@ -34,6 +30,21 @@ window.onload = function () {
       body: JSON.stringify({
         quantity: quantity.value,
       }),
-    });
+    })
+      .catch((error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+        });
+      })
+      .then((response) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Added to cart!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      });
   });
 };

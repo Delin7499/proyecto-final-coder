@@ -1,9 +1,8 @@
-<header class='flex flex-row'>
-
-  <form action='/home' method='get' style='display: inline;'>
+<header class='flex flex-row items-center bg-white shadow-md px-4 py-2'>
+  <form action='/home' method='get' class='inline'>
     <button
       type='submit'
-      class='border-2 rounded-md bg-slate-50 hover:bg-slate-200'
+      class='border-2 rounded-md bg-slate-50 hover:bg-slate-200 p-2'
     >
       <svg
         xmlns='http://www.w3.org/2000/svg'
@@ -19,37 +18,32 @@
           d='m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
         />
       </svg>
-
     </button>
   </form>
   {{#if user}}
-    <div id='uid' data-id='{{user._id}}'></div>
-
-    <div class='flex-1 self-start'>
-      <h1 id='greetMessage' class='relative left-3'></h1>
-    </div>
-    <nav class='flex flex-1 place-content-end bg-red-300'>
-
-      <ul class='flex flex-row self-end space-x-3'>
-
+    <div id='uid' data-id='{{user._id}}' class='hidden'></div>
+    <h1 id='greetMessage' class='flex-grow mx-3 text-lg font-semibold'></h1>
+    <nav class='flex-grow'>
+      <ul class='flex justify-end space-x-4'>
         <li id='premiumOrProducts'>
-
+          <!-- Content here -->
         </li>
-
         <li>
-          <form action='/auth/logout' method='post' style='display: inline;'>
-            <button type='submit'>
+          <form action='/auth/logout' method='post' class='inline'>
+            <button type='submit' class='text-blue-600 hover:text-blue-800'>
               Logout
             </button>
           </form>
         </li>
-        <li><a href='/profile'>Profile</a></li>
-        <li><a href='/mytickets'>My Tickets</a></li>
-        <li><a href='/mycart'>My Cart</a></li>
-
+        <li><a
+            href='/profile'
+            class='text-blue-600 hover:text-blue-800'
+          >Profile</a></li>
+        <li><a href='/mytickets' class='text-blue-600 hover:text-blue-800'>My
+            Tickets</a></li>
+        <li><a href='/mycart' class='text-blue-600 hover:text-blue-800'>My Cart</a></li>
       </ul>
     </nav>
   {{/if}}
 </header>
-
-<script src='js/header.js'></script>
+<script src='/js/header.js'></script>
