@@ -11,6 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  Res,
 } from '@nestjs/common';
 import { HttpCode, HttpStatus } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -23,7 +24,7 @@ import { existsSync, mkdirSync } from 'fs';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
-
+import { Response } from 'express';
 const productsStorage = diskStorage({
   destination: (req: Request, file, cb) => {
     const user = req.user['user'];
@@ -85,6 +86,42 @@ export class ProductsController {
     };
     const product = await this.productsService.create(productData);
     return { message: 'Request recived', product };
+  }
+  @Post('product')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(
+    FileInterceptor('thumbnailFile', { storage: productsStorage }),
+  )
+  async createProduct(
+    @Req() request: Request,
+    @UploadedFile() file: Express.Multer.File,
+    @Res() response: Response,
+  ) {
+    const owner = request.user['user'].email;
+    console.log('llego peticion');
+    console.log('body', request.body);
+    console.log('file', file);
+    let thumbnail = 'default';
+
+    if (request.body.thumbnailType === 'URL') {
+      thumbnail = request.body.thumbnailURL;
+    } else if (file) {
+      thumbnail = file.path.replace('public', '');
+    }
+
+    const productData = {
+      title: request.body.title,
+      description: request.body.description,
+      price: request.body.price,
+      status: request.body.status === 'Visible' ? true : false,
+      stock: request.body.stock,
+      category: request.body.category,
+      thumbnail,
+      owner,
+      barcode: request.body.barcode,
+    };
+    const product = await this.productsService.create(productData);
+    return response.redirect('/realtimeproducts');
   }
 
   @Get()
