@@ -132,12 +132,13 @@ export class AuthController {
   }
 
   @Post('forgot-password')
-  async forgotPassword(@Body() body: any) {
+  async forgotPassword(@Req() request: Request, @Body() body: any) {
+    console.log(request.headers.host);
     console.log('email ', body.email);
     const email = body.email;
     if (await this.authService.userExists(email)) {
       const token = await this.authService.createRecoveryToken(email, uuidv4());
-      const url = `http://localhost:3000/password-reset/${email}/${token.token}`;
+      const url = `${request.headers.host}/password-reset/${email}/${token.token}`;
       const html = `<h1>Reset your password</h1><p>Click <a href="${url}">here</a> to reset your password</p>`;
       console.log('html ', html);
       await this.mailService.send(email, 'Reset your password', html);
