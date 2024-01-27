@@ -40,6 +40,7 @@ document.getElementById('profilePic').addEventListener('click', function () {
 document.getElementById('fileInput').addEventListener('change', function () {
   var file = this.files[0];
   if (file) {
+    document.getElementById('submitButtonProfilePic').hidden = false;
     var reader = new FileReader();
     reader.onload = function (e) {
       document.getElementById('profilePic').src = e.target.result;
@@ -57,6 +58,7 @@ document
 document
   .getElementById('file-account-status')
   .addEventListener('change', function () {
+    document.getElementById('submitButtonAccountStatus').hidden = false;
     var file = this.files[0];
     if (file) {
       var reader = new FileReader();
@@ -78,6 +80,7 @@ document
   .addEventListener('change', function () {
     var file = this.files[0];
     if (file) {
+      document.getElementById('submitButtonProofOfAddress').hidden = false;
       var reader = new FileReader();
       reader.onload = function (e) {
         document.getElementById('proof-of-address').src = e.target.result;
