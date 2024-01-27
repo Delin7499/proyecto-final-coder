@@ -1,5 +1,6 @@
 <div class='flex place-content-center'>
   <form
+    id='signup-form'
     action='/auth/register'
     method='POST'
     class='bg-white border-4 border-gray-200 shadow-lg rounded-lg p-6 w-full max-w-md'
@@ -109,3 +110,11 @@
     </div>
   </form>
 </div>
+
+<script>
+  document.getElementById('signup-form').addEventListener('submit',
+  function(event) { var newPassword = document.getElementById('password').value;
+  var confirmPassword = document.getElementById('repeat_password').value; if
+  (newPassword !== confirmPassword) { alert('Passwords do not match!');
+  event.preventDefault(); } });
+</script>
