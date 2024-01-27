@@ -73,7 +73,6 @@ export class UsersController {
     user.role = 'Premium';
     this.usersService.update(id, user);
 
-    response.clearCookie('jwt');
-    return response.redirect('/login');
+    return response.redirect('/home');
   }
 }

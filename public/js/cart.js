@@ -13,11 +13,47 @@ function fetchCartData() {
     .then((response) => response.json())
     .then((cart) => {
       renderCartProducts(cart.products);
+      renderCartItems(cart.products);
+      updateTotalValue(cart.products);
       setupDeleteButtons();
     })
     .catch((error) => {
       console.error('Error fetching cart data:', error);
     });
+}
+
+document
+  .getElementById('purchaseButton')
+  .addEventListener('click', function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Assuming you are sending a POST request
+    fetch(`/api/tickets/${cartId}/purchase`, {
+      method: 'POST',
+      // Add any necessary headers, body, etc.
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Assuming 'data' is the response in JSON format as you mentioned
+        displayMessage(data.message);
+        alert(data.message);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred while making the purchase.');
+        window.location.reload();
+      });
+  });
+
+function displayMessage(message) {
+  const messageContainer = document.createElement('div');
+  messageContainer.textContent = message;
+  document.body.appendChild(messageContainer);
+
+  // Style the message container as needed
+  messageContainer.style.color = 'green'; // Example styling
+  messageContainer.style.marginTop = '20px'; // Example styling
 }
 
 function renderCartProducts(products) {
@@ -60,6 +96,32 @@ function renderCartProducts(products) {
   // Update the products container with the rendered products
   productsContainer.innerHTML = productsList.join('');
 }
+
+// Function to render cart items
+const renderCartItems = (cartProducts) => {
+  cartItems.innerHTML = ''; // Clear existing items
+  cartProducts.forEach((product, index) => {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `
+          <div class="flex">
+              <h3 class="flex-1">${product.quantity}X ${
+                product.product.title
+              }</h3>
+              <p>${product.product.price * product.quantity}</p>
+          </div>
+      `;
+    cartItems.appendChild(listItem);
+  });
+};
+
+const updateTotalValue = (cartProducts) => {
+  const totalValueElement = document.getElementById('totalValue');
+  console.log(cartProducts);
+  const total = cartProducts.reduce((acc, product) => {
+    return acc + product.product.price * product.quantity;
+  }, 0);
+  totalValueElement.textContent = `${total}`;
+};
 
 function setupDeleteButtons() {
   // Add event listeners for delete buttons

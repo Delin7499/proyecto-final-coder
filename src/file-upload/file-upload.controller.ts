@@ -103,7 +103,16 @@ export class FileUploadController {
     const user = await this.usersService.findById(id);
 
     const filePath = file.path.replace('public', '');
-    user.documents.push({ name: 'ProofOfAddress', reference: filePath });
+
+    const existingProofOfAddress = user.documents.find(
+      (doc) => doc.name === 'ProofOfAddress',
+    );
+
+    if (existingProofOfAddress) {
+      existingProofOfAddress.reference = filePath;
+    } else {
+      user.documents.push({ name: 'ProofOfAddress', reference: filePath });
+    }
     this.usersService.update(id, user);
     return response.redirect('/profile');
   }
@@ -122,7 +131,16 @@ export class FileUploadController {
 
     const user = await this.usersService.findById(id);
     const filePath = file.path.replace('public', '');
-    user.documents.push({ name: 'AccountStatus', reference: filePath });
+
+    const existingAccountStatus = user.documents.find(
+      (doc) => doc.name === 'AccountStatus',
+    );
+
+    if (existingAccountStatus) {
+      existingAccountStatus.reference = filePath;
+    } else {
+      user.documents.push({ name: 'AccountStatus', reference: filePath });
+    }
     this.usersService.update(id, user);
     return response.redirect('/profile');
   }

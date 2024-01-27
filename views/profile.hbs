@@ -1,64 +1,81 @@
-<div class='flex flex-col'>
-  <div class='self-center w-fit border-solid border-2 border-black rounded-md'>
-    <h1 class='self-center'>User Profile </h1>
-   <div class="flex place-content-center">
-    <img
-        id="profilePic"
-        class='self-center max-h-32'
-        alt='User Profile Picture'
-        style="cursor: pointer;"
-    />
-</div>
-    <div class='flex-1 w-fit self-center flex-col'>
-      <div class='flex-1 flex profile-item'>
-        <label for='first_name'>First Name:</label>
-        <label
-          class='text-red-600 self-end'
-          id='first_name'
-        ></label>
-      </div>
-      <div class='profile-item'>
-        <label for='last_name'>Last Name:</label>
-        <span id='last_name'></span>
-      </div>
-      <div class='profile-item'>
-        <label for='email'>Email:</label>
-        <span id='email'></span>
-      </div>
-      <div class='profile-item'>
-        <label for='age'>Age:</label>
-        <span id='age'></span>
-      </div>
-      <div class='profile-item'>
-        <label for='role'>Role:</label>
-        <span id='role'></span>
-    </div>
-    <div class="flex-1 flex-row">
+<div class='flex flex-col items-center p-4'>
+  <div
+    class='w-full md:w-1/2 lg:w-1/3 bg-white border-4 border-gray-200 shadow-lg rounded-lg overflow-hidden'
+  >
+    <h1 class='text-2xl font-bold text-gray-800 text-center py-4'>User Profile</h1>
+    <div class='flex justify-center py-4'>
       <img
-        id="accountPic"
-        class='max-h-32'
-        alt='User Account Status Picture'
-        style="cursor: pointer;"
-    />
-  <img
-        id="addressPic"
-        class=' max-h-32'
-        alt='User Proof of Address Picture'
-        style="cursor: pointer;"
-    />
-    
-</div>
-    <form class="relative h-4" action="/edit-profile" method="get">
-    <button type="submit" class="flex-1 w-fit absolute right-2 top-0">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-      <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-      </svg>
-    </button>
+        id='profilePic'
+        class='h-32 w-32 rounded-full object-cover border-2 border-gray-300 cursor-pointer'
+        alt='User Profile Picture'
+      />
+    </div>
+    <div class='px-6'>
+      <div class='flex flex-col items-center space-y-2 py-2'>
+        <div class='flex items-center space-x-2'>
+          <label for='first_name' class='font-semibold text-gray-700'>First
+            Name:</label>
+          <span id='first_name' class='text-red-600'></span>
+        </div>
+        <div class='flex items-center space-x-2'>
+          <label for='last_name' class='font-semibold text-gray-700'>Last Name:</label>
+          <span id='last_name'></span>
+        </div>
+        <div class='flex items-center space-x-2'>
+          <label for='email' class='font-semibold text-gray-700'>Email:</label>
+          <span id='email'></span>
+        </div>
+        <div class='flex items-center space-x-2'>
+          <label for='age' class='font-semibold text-gray-700'>Age:</label>
+          <span id='age'></span>
+        </div>
+        <div class='flex items-center space-x-2'>
+          <label for='role' class='font-semibold text-gray-700'>Role:</label>
+          <span id='role'></span>
+        </div>
+      </div>
+    </div>
+    <div class='flex justify-center items-center flex-wrap p-4'>
+      <div class='flex items-center space-x-2'>
+        <img
+          id='accountPic'
+          class='h-32 w-32 rounded-lg object-cover border-2 border-gray-300 cursor-pointer'
+          alt='User Account Status Picture'
+        />
+        <span class='text-gray-700'>Account Status Picture</span>
+      </div>
+      <div class='flex items-center space-x-2'>
+        <img
+          id='addressPic'
+          class='h-32 w-32 rounded-lg object-cover border-2 border-gray-300 cursor-pointer'
+          alt='User Proof of Address Picture'
+        />
+        <span class='text-gray-700'>Proof of Address Picture</span>
+      </div>
+    </div>
+    <form class='flex justify-end p-4' action='/edit-profile' method='get'>
+      <button
+        type='submit'
+        class='text-white bg-blue-500 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center'
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          stroke-width='1.5'
+          stroke='currentColor'
+          class='w-6 h-6 inline-block mr-2'
+        >
+          <path
+            stroke-linecap='round'
+            stroke-linejoin='round'
+            d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10'
+          />
+        </svg>
+        Edit Profile
+      </button>
     </form>
   </div>
-
-
-
 </div>
 
-<script src="js/profile.js"></script>
+<script src='js/profile.js'></script>
