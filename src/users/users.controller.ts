@@ -73,6 +73,6 @@ export class UsersController {
     user.role = 'Premium';
     this.usersService.update(id, user);
 
-    return response.redirect('/home');
+    return response.status(202).json({ message: 'User is now premium' });
   }
 }

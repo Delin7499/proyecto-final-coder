@@ -94,6 +94,7 @@ export class ProductsController {
     @Query('sort') sort: string,
   ) {
     page = page || '1';
+    limit = limit || 10;
     const response = await this.productsService.findAllPaginated(
       parseInt(page),
       limit,
@@ -119,6 +120,7 @@ export class ProductsController {
     @Param('owner') owner: string,
   ) {
     page = page || '1';
+    limit = limit || 10;
     const response = await this.productsService.findAllPaginatedByOwner(
       parseInt(page),
       limit,

@@ -28,12 +28,25 @@ fetch('/api/users/profile')
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ uid }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            alert(data.message);
-          });
+        }).then((data) => {
+          if (data.status === 202) {
+            Swal.fire({
+              icon: 'success',
+              text: 'You are now a premium user!',
+              timer: 1500,
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            data.json().then((response) => {
+              Swal.fire({
+                icon: 'error',
+                text: response.message,
+                timer: 1500,
+              });
+            });
+          }
+        });
       });
     }
   });
