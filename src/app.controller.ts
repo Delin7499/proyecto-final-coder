@@ -48,6 +48,10 @@ export class AppController {
   }
 
   @Get('')
+  index(@Res() response: Response) {
+    return response.redirect('/home');
+  }
+
   @Get('home')
   @UseFilters(UnauthorizedExceptionFilter)
   @UseGuards(AuthGuard('jwt'))
