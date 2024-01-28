@@ -116,4 +116,12 @@ export class UsersService {
     }
     return;
   }
+
+  async deleteByEmail(email: string) {
+    const deletedUser = await this.usersModel.findOneAndDelete({ email });
+    if (!deletedUser) {
+      throw new NotFoundException(`User with email ${email} not found`);
+    }
+    return;
+  }
 }

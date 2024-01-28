@@ -4,17 +4,13 @@ import {
   Post,
   Req,
   Res,
-  UploadedFile,
   UseGuards,
-  UseInterceptors,
   Delete,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 
 @Controller('api/users')
 export class UsersController {
@@ -45,6 +41,23 @@ export class UsersController {
       return { first_name, email, role, lastConnection };
     });
     return inactiveUsers;
+  }
+
+  @Delete(':uemail')
+  @UseGuards(AuthGuard('jwt'))
+  async deleteUser(
+    @Param('uemail') uemail: string,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
+    const loggedUser = request.user['user'];
+    if (loggedUser.role !== 'Admin')
+      return response.status(401).json({ message: 'Unauthorized' });
+
+    const user = await this.usersService.findByEmail(uemail);
+    if (!user) return response.status(404).json({ message: 'User not found' });
+    this.usersService.deleteByEmail(uemail);
+    return response.status(202).json({ message: 'User deleted' });
   }
 
   @Post('edit')

@@ -6,6 +6,7 @@ import {
   Req,
   UseGuards,
   UseFilters,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { AppService } from './app.service';
@@ -123,6 +124,19 @@ export class AppController {
     const cartId = user.cart;
     const isAdmin = user.role === 'Admin' || user.role === 'Premium';
     return response.render('productPage', { user, pid, cartId, isAdmin });
+  }
+
+  @Get('realtimeusers')
+  @UseGuards(AuthGuard('jwt'))
+  realtimeusers(@Req() request: Request, @Res() response: Response) {
+    const user = request.user['user'];
+    const userEmail = user.email;
+    const isAdmin = user.role === 'Admin' || user.role === 'Premium';
+    if (user.role !== 'Admin') {
+      throw new UnauthorizedException();
+    }
+
+    return response.render('manageUsers', { user, userEmail, isAdmin });
   }
 
   @Get('chat')
