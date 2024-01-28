@@ -1,6 +1,6 @@
 const usersContainer = document.getElementById('users');
 
-const fetchProducts = (limit, page, sort) => {
+const fetchUsers = (limit, page, sort) => {
   const fetchUrl = '/api/users';
 
   fetch(fetchUrl)
@@ -25,6 +25,7 @@ const fetchProducts = (limit, page, sort) => {
               ${user.first_name} 
           </h3>
           <p class="text-sm text-gray-500">Email: ${user.email}</p>
+          <p class="text-sm text-gray-500">Role: ${user.role}</p>
           <p class="text-sm text-gray-500">Last Connection: ${formattedDate}</p>
         
           <button class="delete-product-button flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600" data-user-email="${user.email}">Delete</button>
@@ -69,5 +70,39 @@ function setupDeleteButtons() {
 }
 
 if (usersContainer) {
-  fetchProducts('9', '1', 'asc');
+  fetchUsers();
 }
+
+const deleteInactive = document.getElementById('deleteInactive');
+
+deleteInactive.addEventListener('click', () => {
+  fetch(`/api/users/`, {
+    method: 'DELETE',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      if (data.length === 0) {
+        Swal.fire({
+          text: 'No inactive users found!',
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
+      } else {
+        const emails = data.map((user) => {
+          return `${user.email} `;
+        });
+        Swal.fire({
+          icon: 'success',
+          text: `Inactive users deleted successfully! (${emails})`,
+          timer: 1500,
+        }).then(() => {
+          window.location.reload();
+        });
+      }
+    })
+    .catch((error) => {
+      console.error('Error deleting user:', error);
+    });
+});
