@@ -84,13 +84,14 @@ function renderCartProducts(products) {
   console.log(products);
   const productsList = products.map((prod) => {
     return `
-  
-  <div class="h-auto w-64 hover:shadow-md bg-white group relative rounded-md flex-grow id=${prod._id}">
-        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+      
+      
+      <div class="h-auto md:w-64 hover:shadow-md bg-white group relative rounded-md flex flex-col">
+        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75">
           <img
             src="${prod.product.thumbnail}"
             alt="${prod.product.title}"
-            class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+            class="h-full w-full object-cover object-center"
           />
         </div>
     
@@ -112,9 +113,9 @@ function renderCartProducts(products) {
           </div>
           <p class="text-sm text-gray-500">Owner: ${prod.product.owner}</p>
           <h3 class="text-sm text-black ">Quantity: ${prod.quantity}</h3>
+          <button class="delete-product-button flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600" data-product-id="${prod.product._id}">Delete</button>
         </div>
-        <button class="delete-product-button flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600" data-product-id="${prod.product._id}">Delete</button>
-      </div>`;
+    </div>`;
   });
 
   // Update the products container with the rendered products
