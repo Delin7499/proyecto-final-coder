@@ -44,6 +44,7 @@ const fetchProducts = (limit, page, sort) => {
             <p class="text-sm text-gray-500">Stock: ${prod.stock}</p>
           </div>
           <p class="text-sm text-gray-500">Owner: ${prod.owner}</p>
+          
         </div>
     </div>
     `,

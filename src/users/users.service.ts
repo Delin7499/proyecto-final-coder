@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 import { Model, Types } from 'mongoose';
 import { CreateUserDto } from './DTO/create-user.dto';
 import { TicketsService } from 'src/tickets/tickets.service';
@@ -39,8 +39,8 @@ export class UsersService {
     return newUser.save();
   }
 
-  async findAll(): Promise<User[]> {
-    return this.usersModel.find().lean().exec();
+  async findAll(): Promise<UserDocument[]> {
+    return this.usersModel.find().exec();
   }
 
   async findById(id: string): Promise<User> {

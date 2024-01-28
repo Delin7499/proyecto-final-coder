@@ -4,30 +4,25 @@ console.log(email);
 
 const productosContainer = document.getElementById('products');
 const applyFiltersButton = document.getElementById('applyFilters');
-if (applyFiltersButton) {
-  applyFiltersButton.addEventListener('click', function () {
-    const limit = document.getElementById('limit').value;
-    const page = document.getElementById('page').value;
-    const sort = document.getElementById('sort').value;
-
-    // Fetch products with the selected filters (limit, page, sort)
-    fetchProducts(limit, page, sort);
-  });
-}
 
 const fetchProducts = (limit, page, sort) => {
-  fetch(`/api/products/user/${email}?limit=${limit}&page=${page}&sort=${sort}`)
+  const fetchUrl =
+    email === 'Admin'
+      ? `/api/products?limit=${limit}&page=${page}&sort=${sort}`
+      : `/api/products/user/${email}?limit=${limit}&page=${page}&sort=${sort}`;
+
+  fetch(fetchUrl)
     .then((response) => response.json())
     .then((products) => {
       const productoslist = products.payload.map(
         (
           prod,
-        ) => ` <div class="h-auto w-64 hover:shadow-md bg-white group relative rounded-md flex-grow id=${prod._id}">
-        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+        ) => ` <div class="h-auto md:w-64 hover:shadow-md bg-white group relative rounded-md flex flex-col">
+        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:aspect-none group-hover:opacity-75">
           <img
             src="${prod.thumbnail}"
             alt="${prod.title}"
-            class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+            class="h-full w-full object-cover object-center"
           />
         </div>
     
@@ -44,20 +39,50 @@ const fetchProducts = (limit, page, sort) => {
           <p class="text-sm text-gray-500">Category: ${prod.category}</p>
           <p class="text-sm text-gray-500">Status: ${prod.status}</p>
           <div class="flex justify-between items-center mt-2">
-            <p class="text-sm font-medium text-gray-900">${prod.price}</p>
+            <p class="text-sm font-medium text-gray-900">$${prod.price}</p>
             <p class="text-sm text-gray-500">Stock: ${prod.stock}</p>
           </div>
           <p class="text-sm text-gray-500">Owner: ${prod.owner}</p>
+          <button class="delete-product-button flex-auto relative self-center bg-blue-400 rounded-md hover:bg-blue-600" data-product-id="${prod._id}">Delete</button>
         </div>
       </div>`,
       );
 
       productosContainer.innerHTML = productoslist.join('');
+      setupDeleteButtons();
     })
     .catch((error) => {
       console.error('Error fetching products:', error);
     });
 };
+
+function setupDeleteButtons() {
+  // Add event listeners for delete buttons
+  const deleteButtons = document.querySelectorAll('.delete-product-button');
+
+  deleteButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const productId = button.getAttribute('data-product-id');
+
+      // Send a delete request to your server
+      fetch(`/api/products/${productId}`, {
+        method: 'DELETE',
+      })
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            text: 'Product deleted successfully!',
+            timer: 1500,
+          }).then(() => {
+            window.location.reload();
+          });
+        })
+        .catch((error) => {
+          console.error('Error deleting product:', error);
+        });
+    });
+  });
+}
 
 if (productosContainer) {
   fetchProducts('9', '1', 'asc');
@@ -69,19 +94,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const sortSelect = document.getElementById('sort');
   limitSelect.addEventListener('change', () => {
     fetchProducts(limitSelect.value, pageInput.value, sortSelect.value);
+
     console.log(limitSelect.value);
   });
 
   pageInput.addEventListener('input', () => {
     fetchProducts(limitSelect.value, pageInput.value, sortSelect.value);
+
     console.log(pageInput.value);
   });
 
   sortSelect.addEventListener('change', () => {
     fetchProducts(limitSelect.value, pageInput.value, sortSelect.value);
+
     console.log(sortSelect.value);
   });
 });
+
 //////////////////////////////////////////////
 document.querySelectorAll("input[name='thumbnailType']").forEach((input) => {
   input.addEventListener('change', function () {

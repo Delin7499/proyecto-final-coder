@@ -22,10 +22,14 @@
   </form>
   {{#if user}}
     <div id='uid' data-id='{{user._id}}' class='hidden'></div>
+    <div id='userEmail' data-id='{{user.email}}' class='hidden'></div>
     <h1 id='greetMessage' class='flex-grow mx-3 text-lg font-semibold'></h1>
     <nav class='flex-grow'>
       <ul class='flex justify-end space-x-4'>
         <li id='premiumOrProducts'>
+          <!-- Content here -->
+        </li>
+        <li id='manageUsers'>
           <!-- Content here -->
         </li>
         <li>

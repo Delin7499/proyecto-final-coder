@@ -7,6 +7,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -18,6 +19,34 @@ import { extname } from 'path';
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get()
+  async getAllUsers() {
+    const users = await this.usersService.findAll();
+    const basicUsers = users.map((user) => {
+      const { first_name, email, role, lastConnection } = user;
+      return { first_name, email, role, lastConnection };
+    });
+    return basicUsers;
+  }
+
+  //deletes all whos las connection was over 30 days ago
+  @Delete()
+  async deleteInactiveUsers() {
+    const users = await this.usersService.findAll();
+    const today = new Date();
+    const thirtyDaysAgo = new Date(today.setDate(today.getDate() - 30));
+    const inactiveUsers = users.filter(
+      (user) => user.lastConnection < thirtyDaysAgo,
+    );
+    inactiveUsers.forEach((user) => {
+      this.usersService.delete(user._id.toString());
+      const { first_name, email, role, lastConnection } = user;
+      return { first_name, email, role, lastConnection };
+    });
+    return inactiveUsers;
+  }
+
   @Post('edit')
   @UseGuards(AuthGuard('jwt'))
   async editUser(@Req() request: Request, @Res() response: Response) {

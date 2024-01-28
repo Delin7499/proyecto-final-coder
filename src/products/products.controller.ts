@@ -25,6 +25,7 @@ import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
+import { MailService } from 'src/mail/mail.service';
 const productsStorage = diskStorage({
   destination: (req: Request, file, cb) => {
     const user = req.user['user'];
@@ -50,7 +51,10 @@ const productsStorage = diskStorage({
 
 @Controller('api/products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private mailService: MailService,
+  ) {}
 
   @Post('')
   @UseGuards(AuthGuard('jwt'))
@@ -192,7 +196,23 @@ export class ProductsController {
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
+    const product = await this.productsService.findById(id);
+    if (product.owner !== 'Admin') {
+      const mailData = {
+        to: product.owner,
+        subject: 'Product deleted',
+        text: `Your product ${product.title} has been deleted`,
+      };
+
+      this.mailService.send(
+        product.owner,
+        'Product deleted',
+        '<h1>Your product has been deleted</h1',
+      );
+    }
+
     await this.productsService.remove(id);
+
     return null;
   }
 
