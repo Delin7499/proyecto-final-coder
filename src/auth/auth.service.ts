@@ -24,8 +24,7 @@ export class AuthService {
       }
       if (bcrypt.compareSync(password, user.password)) {
         const { password, ...result } = user;
-        user.lastConnection = new Date();
-        this.userService.updateByEmail(email, user);
+
         return result;
       } else {
         throw new UnauthorizedException('Invalid email or password');
@@ -37,6 +36,9 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { user, sub: user.id };
+    user.lastConnection = new Date();
+    const logUser = await this.userService.findByEmail(user.email);
+    this.userService.updateByEmail(logUser.email, logUser);
 
     return { token: this.jwtService.sign(payload) };
   }

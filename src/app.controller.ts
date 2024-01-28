@@ -47,6 +47,7 @@ export class AppController {
     return response.render('resetPassword', { email, token });
   }
 
+  @Get('')
   @Get('home')
   @UseFilters(UnauthorizedExceptionFilter)
   @UseGuards(AuthGuard('jwt'))
