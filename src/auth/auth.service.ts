@@ -36,8 +36,9 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { user, sub: user.id };
-    user.lastConnection = new Date();
+
     const logUser = await this.userService.findByEmail(user.email);
+    logUser.lastConnection = new Date();
     this.userService.updateByEmail(logUser.email, logUser);
 
     return { token: this.jwtService.sign(payload) };
