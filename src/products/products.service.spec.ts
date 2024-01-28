@@ -13,6 +13,7 @@ describe('ProductsService', () => {
   });
 
   it('should be defined', () => {
+    console.log('NODE_ENV', process.env.NODE_ENV);
     expect(service).toBeDefined();
   });
 });

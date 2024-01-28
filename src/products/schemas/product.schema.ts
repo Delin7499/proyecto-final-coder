@@ -7,22 +7,22 @@ export class Product {
   @Prop({
     required: true,
   })
-  title: String;
+  title: string;
 
   @Prop({ required: true })
-  description: String;
+  description: string;
 
   @Prop({ required: true, unique: true })
-  code: String;
+  code: string;
 
   @Prop({ required: true })
-  price: Number;
+  price: number;
 
   @Prop({ required: true })
-  status: Boolean;
+  status: boolean;
 
   @Prop({ required: true })
-  stock: Number;
+  stock: number;
 
   @Prop({
     default: `Product`,
@@ -30,13 +30,13 @@ export class Product {
   category: string;
 
   @Prop({ default: 'https://via.placeholder.com/150' })
-  thumbnail: String;
+  thumbnail: string;
 
   @Prop({ required: true, default: 'admin' })
-  owner: String;
+  owner: string;
 
   @Prop({ default: '000000000000' })
-  barcode: String;
+  barcode: string;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

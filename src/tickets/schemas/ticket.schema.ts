@@ -6,7 +6,7 @@ export type TicketDocument = HydratedDocument<Ticket>;
 @Schema()
 export class Ticket {
   @Prop({ required: true, unique: true })
-  code: String;
+  code: string;
 
   @Prop({ required: true, default: Date.now() })
   purchase_date: Date;

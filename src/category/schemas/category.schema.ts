@@ -8,13 +8,13 @@ export class Category {
   @Prop({
     required: true,
   })
-  name: String;
+  name: string;
 
   @Prop({ required: true })
-  thumbnail: String;
+  thumbnail: string;
 
   @Prop({ required: true, default: 'admin' })
-  owner: String;
+  owner: string;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

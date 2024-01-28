@@ -8,7 +8,7 @@ import { CartsModule } from './carts/carts.module';
 import { UsersModule } from './users/users.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { MailModule } from './mail/mail.module';
@@ -20,7 +20,14 @@ import { MailModule } from './mail/mail.module';
     }),
     ConfigModule.forRoot({}),
     ProductsModule,
-    MongooseModule.forRoot(process.env.MONGO_URL),
+    MongooseModule.forRoot(process.env.MONGO_URL, {
+      dbName:
+        process.env.NODE_ENV === 'test'
+          ? process.env.MONGO_DB_NAME_TEST
+          : process.env.NODE_ENV === 'development'
+            ? process.env.MONGO_DB_NAME_DEV
+            : process.env.MONGO_DB_NAME,
+    }),
     CategoryModule,
     CartsModule,
     AuthModule,

@@ -16,9 +16,9 @@ export class TicketsController {
   ) {}
   //ticketRouter.post("/:cartId/purchase", purchase);
   //ticketRouter.get("/user/:email", getUserTickets);
-  processPurchase = async (cart) => {
+  processPurchase = async (cart: any) => {
     const updatedProducts = await Promise.all(
-      cart.products.map(async (cartProduct) => {
+      cart.products.map(async (cartProduct: any) => {
         const { product, quantity } = cartProduct;
 
         const availableStock = product.stock;
@@ -33,27 +33,27 @@ export class TicketsController {
       }),
     );
 
-    const notPurchasedProducts = updatedProducts
-      .filter((cartProduct) => !cartProduct.purchased)
-      .map((cartProduct) => {
-        return {
-          quantity: cartProduct.quantity,
-          product: cartProduct.product._id.toString(),
-          _id: cartProduct._id,
-        };
-      });
+    const notPurchasedProducts = updatedProducts.filter(
+      (cartProduct) => !cartProduct.purchased,
+    );
+
+    const productsForCart = notPurchasedProducts.map((cartProduct) => {
+      return {
+        quantity: cartProduct.quantity,
+        product: cartProduct.product._id.toString(),
+        _id: cartProduct._id,
+      };
+    });
 
     const updatedCart = await this.cartsService.update(cart._id, {
-      products: notPurchasedProducts,
+      products: productsForCart,
     });
 
     const purchasedProducts = updatedProducts.filter(
       (cartProduct) => cartProduct.purchased,
     );
 
-    updatedCart.products = purchasedProducts;
-
-    return updatedCart;
+    return { updatedCart, purchasedProducts, notPurchasedProducts };
   };
 
   @Post(':cartId/purchase')
@@ -71,8 +71,10 @@ export class TicketsController {
         return res.status(404).send("Cart doesn't exist");
       }
 
-      const updatedCart = await this.processPurchase(cart);
-      const totalAmount = updatedCart.products.reduce((total, product) => {
+      const { updatedCart, purchasedProducts, notPurchasedProducts } =
+        await this.processPurchase(cart);
+
+      const totalAmount = purchasedProducts.reduce((total, product) => {
         return total + product.quantity * product.product['price'];
       }, 0);
 
@@ -85,7 +87,7 @@ export class TicketsController {
 
       res.status(200).json({
         message: 'Purchase complete',
-        purchasedProducts: updatedCart.products,
+        notPurchasedProducts: notPurchasedProducts,
       });
     } catch (error) {
       console.error('Error processing purchase:', error);

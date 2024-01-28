@@ -34,16 +34,29 @@ document
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         // Assuming 'data' is the response in JSON format as you mentioned
-        displayMessage(data.message);
-        Swal.fire({
-          icon: 'success',
-          title: 'Purchase completed!',
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(() => {
-          window.location.reload();
-        });
+        if (data.notPurchasedProducts.length === 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Purchase completed!',
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            window.location.reload();
+          });
+        } else {
+          let notPurchasedProducts = data.notPurchasedProducts.map((prod) => {
+            console.log(prod);
+            return ` ${prod.product.title} `;
+          });
+          Swal.fire({
+            icon: 'success',
+            title: `Sorry, the following products are out of stock: ${notPurchasedProducts}`,
+          }).then(() => {
+            window.location.reload();
+          });
+        }
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -110,6 +123,9 @@ function renderCartProducts(products) {
 
 // Function to render cart items
 const renderCartItems = (cartProducts) => {
+  if (cartProducts.length === 0) {
+    document.getElementById('purchaseButton').disabled = true;
+  }
   cartItems.innerHTML = ''; // Clear existing items
   cartProducts.forEach((product, index) => {
     const listItem = document.createElement('li');
@@ -118,7 +134,7 @@ const renderCartItems = (cartProducts) => {
               <h3 class="flex-1">${product.quantity}X ${
                 product.product.title
               }</h3>
-              <p>${product.product.price * product.quantity}</p>
+              <p>$${product.product.price * product.quantity}</p>
           </div>
       `;
     cartItems.appendChild(listItem);
@@ -131,7 +147,7 @@ const updateTotalValue = (cartProducts) => {
   const total = cartProducts.reduce((acc, product) => {
     return acc + product.product.price * product.quantity;
   }, 0);
-  totalValueElement.textContent = `${total}`;
+  totalValueElement.textContent = `$${total}`;
 };
 
 function setupDeleteButtons() {

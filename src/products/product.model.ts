@@ -1,12 +1,12 @@
 export interface Product {
-  _id: String;
-  title: String;
-  description: String;
-  code: String;
-  price: Number;
-  status: Boolean;
-  stock: Number;
-  category: String;
-  thumbnail: String;
-  owner: String;
+  _id: string;
+  title: string;
+  description: string;
+  code: string;
+  price: number;
+  status: boolean;
+  stock: number;
+  category: string;
+  thumbnail: string;
+  owner: string;
 }

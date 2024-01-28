@@ -6,11 +6,9 @@ import {
   Req,
   UseGuards,
   UseFilters,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { AppService } from './app.service';
-import { NotLoggedInGuard } from './auth/notloggedin.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { UnauthorizedExceptionFilter } from './common/filters/unauthorizedException.filter';
 

@@ -17,7 +17,6 @@ import { CreateUserDto } from 'src/users/DTO/create-user.dto';
 import { InvalidCredentialsExceptionFilter } from './invalidCredentials.filter';
 import { Response, Request } from 'express';
 import { InvalidRegistrationExceptionFilter } from './invalidRegistration.filter';
-import { get, request } from 'http';
 import { MailService } from 'src/mail/mail.service';
 import { v4 as uuidv4 } from 'uuid';
 import { UsersService } from 'src/users/users.service';
