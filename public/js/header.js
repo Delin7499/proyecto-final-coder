@@ -59,6 +59,15 @@ if (userEmailll != 'Admin') {
   const premiumOrProducts = document.getElementById('premiumOrProducts');
   premiumOrProducts.innerHTML = `<li><a href='/realtimeproducts'>Manage Products</a></li>`;
 
+  const profileLink = document.getElementById('profileLink');
+  profileLink.hidden = true;
+
+  const ticketsLink = document.getElementById('ticketsLink');
+  ticketsLink.hidden = true;
+
+  const cartLink = document.getElementById('cartLink');
+  cartLink.hidden = true;
+
   const manageUsers = document.getElementById('manageUsers');
   manageUsers.innerHTML = `<li><a href='/realtimeusers'>Manage Users</a></li>`;
 }
