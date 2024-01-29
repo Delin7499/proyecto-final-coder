@@ -31,20 +31,32 @@ window.onload = function () {
         quantity: quantity.value,
       }),
     })
-      .catch((error) => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-        });
-      })
       .then((response) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Added to cart!',
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        if (response.status === 200) {
+          return {
+            icon: 'success',
+            title: 'Added to cart!',
+            showConfirmButton: false,
+            timer: 1500,
+          };
+        } else if (response.status === 400) {
+          return {
+            icon: 'error',
+            title: 'You cannot add your own product to your cart!',
+            showConfirmButton: false,
+            timer: 1500,
+          };
+        } else {
+          return {
+            icon: 'error',
+            title: 'Error adding to cart!',
+            showConfirmButton: false,
+            timer: 1500,
+          };
+        }
+      })
+      .then((toast) => {
+        Swal.fire(toast);
       });
   });
 };

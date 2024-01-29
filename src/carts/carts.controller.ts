@@ -41,6 +41,7 @@ export class CartsController {
   @Post(':cid/product/:pid')
   @UseGuards(AuthGuard('jwt'))
   async addProduct(
+    @Req() request: Request,
     @Res() response: Response,
     @Param('cid') cid: string,
     @Param('pid') pid: string,
@@ -55,6 +56,13 @@ export class CartsController {
     const productToAdd = await this.productService.findById(pid);
     if (!productToAdd) {
       return response.status(404).json({ message: 'Product not found' });
+    }
+    const user = request.user['user'];
+
+    if (productToAdd.owner === user.email) {
+      return response
+        .status(400)
+        .json({ message: 'You can not add your own product to cart' });
     }
 
     const cartProduct = cart.products.find((p) => p.product.toString() == pid);
@@ -93,9 +101,7 @@ export class CartsController {
     const index = cart.products.findIndex(
       (product) => product.product.toString() === pid,
     );
-    console.log('index', index);
-    console.log('cart', cart);
-    console.log('pid', pid);
+
     if (index !== -1) {
       cart.products.splice(index, 1);
     } else {

@@ -7,21 +7,21 @@ window.onload = function () {
       );
       const profilePic = profileDoc
         ? profileDoc.reference
-        : '/profiles/default/default.png';
+        : './profiles/default/default.png';
 
       const adressDoc = data.documents.find(
         (doc) => doc.name === 'ProofOfAddress',
       );
       const adressPic = adressDoc
         ? adressDoc.reference
-        : '/profiles/default/default.png';
+        : 'https://www.iconpacks.net/icons/2/free-file-icon-1453-thumb.png';
 
       const accountDoc = data.documents.find(
         (doc) => doc.name === 'AccountStatus',
       );
       const accountPic = accountDoc
         ? accountDoc.reference
-        : '/profiles/default/default.png';
+        : 'https://www.iconpacks.net/icons/2/free-file-icon-1453-thumb.png';
 
       document.getElementById('email').textContent = data.email;
       document.getElementById('first_name').value = data.first_name;
