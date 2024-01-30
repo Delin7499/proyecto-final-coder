@@ -32,7 +32,7 @@ window.onload = function () {
       }),
     })
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           return {
             icon: 'success',
             title: 'Added to cart!',
